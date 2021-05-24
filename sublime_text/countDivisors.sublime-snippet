@@ -1,0 +1,27 @@
+<snippet>
+  <content><![CDATA[
+//counts the number of divisors
+int countDivisors(int n)
+{
+  int ans = 1;
+  int curr = 0;
+  while (n % 2 == 0)curr++, n /= 2;
+  ans *= (curr + 1);
+  curr = 0;
+  for (int i = 3; i * i <= n; i += 2) {
+    curr = 0;
+    while (n % i == 0) {
+      curr++;
+      n /= i;
+    }
+    ans *= (curr + 1);
+  }
+  if (n > 2)ans *= 2;
+  return ans;
+}
+]]></content>
+  <tabTrigger>countDivisors</tabTrigger>
+  <description>count of all divisors</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
