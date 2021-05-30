@@ -1,0 +1,61 @@
+<snippet>
+  <content><![CDATA[
+struct SCC 
+{
+     vector<vector<int>>components,v;
+     vector<int>vis,temp;
+     stack<int>st;
+     void dfs(int u)
+     {
+        vis[u]=1;
+        for(auto j:v[u]) if(!vis[j]) dfs(j);
+        st.push(u);
+     }
+     void dfs2(int u)
+     {
+        temp.pb(u+1);
+        vis[u]=1;
+        for(auto j:v[u]) if(!vis[j]) dfs2(j);
+      }
+    vector<pair<int,int>>edges;
+    vector<vector<int>> get(vector<vector<int>>vec)
+    {
+      v=vec;
+      int n=v.size(),i,j;
+       vis.resize(n);
+       for( i=0;i<n;i++) if(!vis[i]) dfs(i); //takes care of disconnected graph
+       
+       for( i=0;i<v.size();i++)
+       for( j=0;j<v[i].size();j++)
+        edges.pb({i,v[i][j]});
+       
+      for(i=0;i<v.size();i++) v[i].clear();
+      for( i=0;i<edges.size();i++)         //reverse the edges 
+       v[edges[i].s].pb(edges[i].f);
+      
+      for( i=0;i<n;i++) vis[i]=0;
+
+      while(st.size()>0)    
+      {
+        int u=st.top();
+        st.pop();
+        if(!vis[u])
+        {
+           if(temp.size()>0)
+            components.pb(temp);
+           temp.clear();
+          dfs2(u);
+        }
+
+      }
+      if(temp.size()>0) components.pb(temp);
+      return components;
+    }
+
+};
+]]></content>
+  <tabTrigger>scc</tabTrigger>
+  <description>Stongly-connected components in DAG</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
