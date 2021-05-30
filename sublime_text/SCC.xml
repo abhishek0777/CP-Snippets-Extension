@@ -55,7 +55,7 @@ struct SCC
 };
 ]]></content>
   <tabTrigger>scc</tabTrigger>
-  <description>Stongly-connected components in DAG</description>
+  <description>Stongly-connected components in DG</description>
   <!-- Optional: Set a scope to limit where the snippet will trigger -->
   <!-- <scope >source.python</scope > -->
 </snippet>
