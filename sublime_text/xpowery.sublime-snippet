@@ -1,6 +1,6 @@
 <snippet>
   <content><![CDATA[
-long long int xpowery(int x, int y) {
+long long int xpowery(long long int x,long long int y) {
   long long int res = 1;
   /*
   it depends sometimes on questions too,
