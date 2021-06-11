@@ -1,0 +1,24 @@
+<snippet>
+  <content><![CDATA[
+vector<int> parent;
+void initDSU(int N) {
+   parent.assign(N + 1, 0);
+   iota(parent.begin(), parent.end(), 0);
+}
+int findDSU(int x) {
+   if (x == parent[x])return x;
+   return parent[x] = findDSU(parent[x]);
+}
+void unionDSU(int x, int y) {
+   int px = findDSU(x);
+   int py = findDSU(y);
+   if (px != py) {
+      parent[py] = px;
+   }
+}
+]]></content>
+  <tabTrigger>DSU</tabTrigger>
+  <description>Disjoint union data structures</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

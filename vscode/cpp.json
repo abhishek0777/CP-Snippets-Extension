@@ -440,6 +440,28 @@
 		  "}"
 		],
 		"description": "Detect negative cycle"
+	},
+	"Disjoint union data structures": {
+		"prefix": "DSU",
+		"body": [
+		  "vector<int> parent;",
+		  "void initDSU(int N) {",
+		  "   parent.assign(N + 1, 0);",
+		  "   iota(parent.begin(), parent.end(), 0);",
+		  "}",
+		  "int findDSU(int x) {",
+		  "   if (x == parent[x])return x;",
+		  "   return parent[x] = findDSU(parent[x]);",
+		  "}",
+		  "void unionDSU(int x, int y) {",
+		  "   int px = findDSU(x);",
+		  "   int py = findDSU(y);",
+		  "   if (px != py) {",
+		  "      parent[py] = px;",
+		  "   }",
+		  "}"
+		],
+		"description": "Disjoint union data structures"
 	}
 	
 }
