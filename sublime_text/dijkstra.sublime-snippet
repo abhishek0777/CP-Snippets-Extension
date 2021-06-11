@@ -1,0 +1,30 @@
+<snippet>
+  <content><![CDATA[
+vector<int> dijkstra(vector<pair<int, int>> adj[], int s, int n)
+{
+   priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+   vector<int> dist(n, INT_MAX);
+   dist[s] = 0;
+   pq.push({dist[s], s});
+   while (!pq.empty()) {
+      int u = pq.top().second;
+      int d_u = pq.top().first;
+      pq.pop();
+      if (d_u != dist[u])continue;
+      for (pair<int, int> edge : adj[u]) {
+         int wt = edge.second;
+         int v = edge.first;
+         if (dist[u] != INT_MAX && dist[v] > dist[u] + wt) {
+            dist[v] = dist[u] + wt;
+            pq.push({dist[v], v});
+         }
+      }
+   }
+   return dist;
+}
+]]></content>
+  <tabTrigger>dijkstra</tabTrigger>
+  <description>Dijkstra shortest path algorithm</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
