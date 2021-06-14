@@ -1,0 +1,69 @@
+<snippet>
+  <content><![CDATA[
+
+struct segtree{
+    ll size=1;
+    vector<ll>sum;
+    void init(ll n){
+        while(size<n)size*=2;
+        sum.assign(2*size,high);
+    }
+    void build(vector<ll>&v,ll x,ll lx,ll rx){
+        if(rx-lx==1){
+            if(lx<v.size()){
+                sum[x]=v[lx];
+            }
+            return;
+        }
+        ll m=(lx+rx)/2;
+        build(v,2*x+1,lx,m);
+        build(v,2*x+2,m,rx);
+        sum[x]=min(sum[2*x+1],sum[2*x+2]);
+    }
+    void build(vector<ll>&v){
+        build(v,0,0,size);
+    }
+    void set(ll i,ll v,ll x,ll lx,ll rx){
+        if(rx-lx==1){
+        sum[x]=v;
+        return;
+        }
+        ll m=(lx+rx)/2;
+        if(i<m){
+            set(i,v,2*x+1,lx,m);
+        }
+        else{
+            set(i,v,2*x+2,m,rx);
+        }
+        sum[x]=min(sum[2*x+1],sum[2*x+2]);
+        
+    }
+    void set(ll i,ll v){
+        set(i,v,0,0,size);
+    }
+    ll calc(ll l,ll r,ll x,ll lx,ll rx){
+        if(lx>=r || rx<=l)
+        return high;
+        if(lx>=l and rx<=r)
+        return sum[x];
+        ll m=(lx+rx)/2;
+        ll s1=calc(l,r,2*x+1,lx,m);
+        ll s2=calc(l,r,2*x+2,m,rx);
+        return min(s1,s2);
+        
+    }
+    ll calc(ll l,ll r){
+        return calc(l,r+1,0,0,size);
+    }
+};
+// segtree st;
+//    st.init(n);
+//      st.build(a);
+//       st.set(index,val);              after index--;
+//          cout<<st.calc(l,r)<<endl;    after l--,r--;
+]]></content>
+  <tabTrigger>segtree</tabTrigger>
+  <description>segment_tree</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
