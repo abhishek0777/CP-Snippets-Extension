@@ -1,0 +1,110 @@
+<snippet>
+  <content><![CDATA[
+struct lazy_segtree{
+    ll size=1,n1;
+    vector<ll>tree,lazy;
+    void init(ll n)
+    {
+        n1=n;
+        while(size<n)size*=2;
+        tree.assign(2*size,0);
+        lazy.assign(2*size,0);
+    }
+    void constructSTUtil(vector<ll>arr, ll left, ll right, ll x)
+     {
+        if (left>right)  return ;
+        if (left == right)
+        {
+            tree[x] = arr[left];
+            return;
+        }
+        ll mid = (left + right)/2;
+        constructSTUtil(arr, left, mid, x*2+1);
+        constructSTUtil(arr, mid+1, right, x*2+2);
+      
+        tree[x] = tree[x*2 + 1] + tree[x*2 + 2];
+    }
+  
+    void build(vector<ll>a)
+    {
+        constructSTUtil(a, 0, a.size()-1, 0);
+    }
+    void updateRangeUtil(ll x, ll left, ll right, ll l, ll r, ll diff)
+     {
+    
+       if (lazy[x] != 0)
+        {
+            tree[x] += (right-left+1)*lazy[x];
+            if (left != right)
+            {
+                lazy[x*2 + 1]   += lazy[x];
+                lazy[x*2 + 2]   += lazy[x];
+            }
+            lazy[x] = 0;
+        }
+        if (left>right || left>r || right<l)
+            return ;
+        if (left>=l && right<=r)
+        {
+            tree[x] += (right-left+1)*diff;
+      
+            if (left != right)
+            {
+                lazy[x*2 + 1]   += diff;
+                lazy[x*2 + 2]   += diff;
+            }
+            return;
+        }
+  
+          ll mid = (left+right)/2;
+          updateRangeUtil(x*2+1, left, mid, l, r, diff);
+          updateRangeUtil(x*2+2, mid+1, right, l, r, diff);
+          tree[x] = tree[x*2+1] + tree[x*2+2];
+      }
+
+      void updateRange(ll l, ll r, ll diff)
+      {
+         updateRangeUtil(0, 0, n1-1, l, r, diff);
+      }
+      ll getSumUtil(ll left, ll right, ll qs, ll qe, ll x)
+      {
+         
+          if (lazy[x] != 0)
+          {
+              
+              tree[x] += (right-left+1)*lazy[x];
+              if (left != right)
+              { 
+                  lazy[x*2+1] += lazy[x];
+                  lazy[x*2+2] += lazy[x];
+              }
+              lazy[x] = 0;
+          }
+        
+          if (left>right || left>qe || right<qs)
+              return 0;
+
+          if (left>=qs && right<=qe)
+              return tree[x];
+          ll mid = (left + right)/2;
+          return getSumUtil(left, mid, qs, qe, 2*x+1) +
+                 getSumUtil(mid+1, right, qs, qe, 2*x+2);
+      }
+      ll getSum(ll l, ll r)
+      {
+        return getSumUtil(0, n1-1, l, r, 0);
+      }
+
+
+};
+ // lazy_segtree st;
+ //   st.init(n);
+ //   st.build(a);   a -> vector<ll>
+ // cout<<st.getSum(l,r)<<endl;  return the sum from range l-r (0 based indexing)
+ // st.updateRange(l,r,val);    adds val to the range l-r       (0 based indexing)
+]]></content>
+  <tabTrigger>lazy_segtree</tabTrigger>
+  <description>lazy_segment tree</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
