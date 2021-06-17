@@ -1,0 +1,23 @@
+<snippet>
+  <content><![CDATA[
+bool subsetSum(int a[], int N, int S)
+{
+    vector<vector<int>> dp(S + 1, vector<int>(N + 1, 0));
+    for (int i = 0; i <= N; i++)dp[0][i] = 1;
+    for (int i = 1; i <= S; i++) {
+        for (int j = 1; j <= N; j++) {
+            //include
+            if (a[j - 1] <= i) {
+                dp[i][j] = dp[i - a[j - 1]][j - 1];
+            }
+            dp[i][j] = dp[i][j] | dp[i][j - 1];
+        }
+    }
+    return dp[S][N];
+}
+]]></content>
+  <tabTrigger>subsetSum</tabTrigger>
+  <description>subset sum possible</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

@@ -1,0 +1,23 @@
+<snippet>
+  <content><![CDATA[
+//longest increasing subsequence
+int lis(int a[], int n)
+{
+    int tail[n];
+    tail[0] = a[0];
+    int len = 1;
+    for (int i = 1; i < n; i++) {
+        if (a[i] > tail[len - 1])tail[len++] = a[i];
+        else {
+            int j = lower_bound(tail, tail + len, a[i]) - tail;
+            tail[j] = a[i];
+        }
+    }
+    return len;
+}
+]]></content>
+  <tabTrigger>lis</tabTrigger>
+  <description>Longest increasing subsequence</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

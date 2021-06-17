@@ -462,6 +462,71 @@
 		  "}"
 		],
 		"description": "Disjoint union data structures"
+	},
+	"0-1 Knapsack": {
+		"prefix": "01knapsack",
+		"body": [
+		  "int knapsack(int W,int val[],int w[],int n)",
+		  "{",
+		  "    int dp[W+1][n+1];",
+		  "    for(int i=0;i<=n;i++)dp[0][i]=0;",
+		  "    for(int i=0;i<=W;i++)dp[i][0]=0;",
+		  "    for(int i=1;i<=W;i++)",
+		  "    {",
+		  "        for(int j=1;j<=n;j++)",
+		  "        {",
+		  "            if(w[j-1]>i)",
+		  "            dp[i][j]=dp[i][j-1];",
+		  "            else",
+		  "            dp[i][j]=max(dp[i-w[j-1]][j-1]+val[j-1],dp[i][j-1]);",
+		  "        }",
+		  "    }",
+		  "    return dp[W][n];",
+		  "}"
+		],
+		"description": "0-1 Knapsack"
+	},
+	"Longest increasing subsequence": {
+		"prefix": "lis",
+		"body": [
+		  "//longest increasing subsequence",
+		  "int lis(int a[], int n)",
+		  "{",
+		  "    int tail[n];",
+		  "    tail[0] = a[0];",
+		  "    int len = 1;",
+		  "    for (int i = 1; i < n; i++) {",
+		  "        if (a[i] > tail[len - 1])tail[len++] = a[i];",
+		  "        else {",
+		  "            int j = lower_bound(tail, tail + len, a[i]) - tail;",
+		  "            tail[j] = a[i];",
+		  "        }",
+		  "    }",
+		  "    return len;",
+		  "}"
+		],
+		"description": "Longest increasing subsequence"
+	},
+	"subset sum possible": {
+		"prefix": "subsetSum",
+		"body": [
+		  "bool subsetSum(int a[], int N, int S)",
+		  "{",
+		  "    vector<vector<int>> dp(S + 1, vector<int>(N + 1, 0));",
+		  "    for (int i = 0; i <= N; i++)dp[0][i] = 1;",
+		  "    for (int i = 1; i <= S; i++) {",
+		  "        for (int j = 1; j <= N; j++) {",
+		  "            //include",
+		  "            if (a[j - 1] <= i) {",
+		  "                dp[i][j] = dp[i - a[j - 1]][j - 1];",
+		  "            }",
+		  "            dp[i][j] = dp[i][j] | dp[i][j - 1];",
+		  "        }",
+		  "    }",
+		  "    return dp[S][N];",
+		  "}"
+		],
+		"description": "subset sum possible"
 	}
 	
 	
