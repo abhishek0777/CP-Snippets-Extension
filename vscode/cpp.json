@@ -788,8 +788,8 @@
         "body": [
             "string decimal_to_string(long long int n)",
             "{",
-            "	if(n==0) return \"0\";",
-            "	string ans=\"\";",
+            "	if(n==0) return 0;",
+            "	string ans="";",
             "	while(n>0)",
             "	{",
             "		ans=ans+(char)((n%10)+48);",
