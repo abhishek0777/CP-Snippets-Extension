@@ -1,0 +1,104 @@
+<snippet>
+  <content><![CDATA[
+struct bridges_cuts
+{
+   map<pair<int,int>,int>edges;
+   vector<pair<int,int>>bridges;
+   vector<vector<int>>vec;
+   vector<int>cuts;
+   vector<int>vis,tin,tout,dp,loww;
+   int n,timer;
+   bool isansestor(int u,int v) 
+   { return tin[u]<=tin[v] && tout[u]>=tout[v]; }
+
+   void dfs(int u,int p)
+  {
+   int j,v;
+   tin[u]=loww[u]=timer++;
+   vis[u]=1;
+   int child=0;
+   for(int v:vec[u])
+   {
+      if(v==p) continue;
+       if (vis[v]) {
+            loww[u] = min(loww[u], tin[v]);
+            continue;
+        }
+    edges[{u,v}]=1;
+       
+      dfs(v,u);
+      loww[u]= min(loww[u], loww[v]);
+            if (loww[v] >= tin[u] && p!=-1)
+                cuts.pb(u+1);
+            ++child;
+   }
+   tout[u]=timer++;
+   if(p == -1 && child > 1)
+       cuts.pb(u+1);
+
+  }
+  void dfs2(ll u,ll p)  //to find a bridge
+{
+   // cout<<u+1<<endl;
+   ll j,v;
+   vis[u]=true;
+   ll goingup=0,goingdown=0,child=0;
+   for(int v:vec[u])
+   {
+      if(v==p) continue;
+      
+      if(edges.count({u,v})>0 || edges.count({v,u})>0) continue;
+      
+      if(isansestor(u,v)) { goingdown++; }
+      if(isansestor(v,u)) { goingup++;}
+      
+   }
+   int f=0;
+   for(int v:vec[u])
+   {
+     
+      if(vis[v]) continue;
+      dfs2(v,u);
+      dp[u]+=dp[v];
+      
+   }
+   
+   dp[u]=dp[u]+goingup-goingdown;
+  if(dp[u]==0 && u!=0) bridges.pb({min(u,p)+1,max(u,p)+1});
+
+}
+
+  void solve(vector<vector<int>>v)
+  {
+       vec=v;
+       n=vec.size();
+       dp.assign(n,0);
+       loww.assign(n,0);
+       tin.assign(n,0);
+       tout.assign(n,0);
+       vis.assign(n,0);
+       timer=1;
+       dfs(0,-1);
+       for(int i=0;i<n;i++) vis[i]=0;
+       dfs2(0,-1);
+  }
+   vector<pair<int,int>> find_bridges()
+   {
+      return bridges;
+   }
+    vector<int> find_cuts()
+   {
+      return cuts;
+   }
+
+};
+// bridges_cuts c;
+//    c.solve(vec);
+//    vector<pair<int,int>>bridges=c.find_bridges();
+//    vector<int>cuts=c.find_cuts();
+]]></content>
+  <tabTrigger>bridge_cutvertices</tabTrigger>
+  <description>bridges & cut vertices</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
